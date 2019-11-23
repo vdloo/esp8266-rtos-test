@@ -9,30 +9,39 @@
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+
+#include "driver/gpio.h"
+
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
+#define GPIO_OUTPUT_IO_LED 2
+#define GPIO_OUTPUT_PIN_SEL  (1ULL<<GPIO_OUTPUT_IO_LED)
+#define BLINK_DELAY_IN_MS 500
 
 void app_main()
 {
-    printf("Hello world!\n");
+    printf("Blinking the built-in LED");
 
-    /* Print chip information */
-    esp_chip_info_t chip_info;
-    esp_chip_info(&chip_info);
-    printf("This is ESP8266 chip with %d CPU cores, WiFi, ",
-            chip_info.cores);
+    gpio_config_t io_conf;
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    io_conf.mode = GPIO_MODE_OUTPUT;
+    io_conf.pin_bit_mask = GPIO_OUTPUT_PIN_SEL;
+    io_conf.pull_down_en = 0;
+    io_conf.pull_up_en = 0;
+    gpio_config(&io_conf);
 
-    printf("silicon revision %d, ", chip_info.revision);
+    gpio_set_direction(GPIO_OUTPUT_IO_LED, GPIO_MODE_OUTPUT);
 
-    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
-            (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
+    while(1) {
+        printf("Turning LED on\n");
+        gpio_set_level(GPIO_OUTPUT_IO_LED, 0);
 
-    for (int i = 10; i >= 0; i--) {
-        printf("Restarting in %d seconds...\n", i);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(BLINK_DELAY_IN_MS / portTICK_PERIOD_MS);
+
+        printf("Turning LED off\n");
+        gpio_set_level(GPIO_OUTPUT_IO_LED, 1);
+
+        vTaskDelay(BLINK_DELAY_IN_MS / portTICK_PERIOD_MS);
     }
-    printf("Restarting now.\n");
-    fflush(stdout);
-    esp_restart();
 }
