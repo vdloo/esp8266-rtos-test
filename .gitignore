@@ -1,0 +1,6 @@
+*.o
+*.pyc
+
+# Project files
+sdkconfig.old
+build/*
