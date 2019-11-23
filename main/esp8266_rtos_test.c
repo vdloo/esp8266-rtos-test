@@ -1,4 +1,4 @@
-/* Hello World Example
+/* ESP8266 RTOS test
 
    This example code is in the Public Domain (or CC0 licensed, at your option.)
 

@@ -1,6 +1,6 @@
 # ESP8266 RTOS test project
 
-Just messing around with a esp8266. This is the [ESP8266_RTOS_SDK](https://github.com/espressif/ESP8266_RTOS_SDK) `examples/get-started/hello_world` project template with some modifications.
+Just messing around with an ESP8266. This is the [ESP8266_RTOS_SDK](https://github.com/espressif/ESP8266_RTOS_SDK) `examples/get-started/hello_world` project template adapted to blink the built-in LED.
 
 ## Setup
 
