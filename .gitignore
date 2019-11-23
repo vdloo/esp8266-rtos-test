@@ -4,3 +4,6 @@
 # Project files
 sdkconfig.old
 build/*
+
+# Python virtualenv
+venv/
